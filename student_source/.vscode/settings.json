@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "my_route_lookup.h": "c",
+        "stdint.h": "c"
+    }
+}

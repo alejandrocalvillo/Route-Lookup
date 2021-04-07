@@ -4,7 +4,7 @@
 #include "io.h"
 /*******************************************************************
  
- Author: Alejandro Calvillo (100384010)
+ Authors: Alejandro Calvillo (100384010), Lucia Moreno (100384100)
 
  This is a library for all the functions to implement the FIB
  information into the corresponding tables and other stuff to make
@@ -20,9 +20,26 @@ typedef struct
 }Tables;
 
 
+/********************************************************
+ A function to initialize the tables
+
+   * @param table struct where we store the two tables
+
+                             Author: Alejandro Calvillo
+ *********************************************************/
+void generate_memory_table (Tables *table);
 
 
+/*******************************************************************
+ A simple boolean function just to know if I need to add a new
+ aux_table entry.
 
+   *@param table struct where we store the two tables
+   *@param IP  IP of reference for bit 15
+
+                              Author: Alejandro Calvillo
+ ******************************************************************/
+int entry_aux(Tables* table, uint32_t *IP);
 
 
 /******************************************************
@@ -52,12 +69,13 @@ void new_route(Tables* table, uint32_t *IP, int *prefix, int *oIf);
 
 
 
-/***************************************
+/***********************************************************
  The goal of this function is to read from 
  the file all FIB entries
 
     @param table struct where we store the two tables
-    @param chek_for_errors our error checker.ç
-    
- **************************************/
+    @param chek_for_errors our error checker.
+  
+                                      Author: Alejandro Calvillo
+ ***********************************************************/
 void set_FIB(Tables *table, int check_for_errors);

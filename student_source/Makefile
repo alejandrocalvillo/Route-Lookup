@@ -1,5 +1,5 @@
 SRC = my_route_lookup.c my_library.c io.c io.h utils.c utils.h my_library.h
-CFLAGS = -Wall -O3 -g
+CFLAGS = -Wall -O3
 
 all: my_route_lookup
 
