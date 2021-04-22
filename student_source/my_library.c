@@ -32,8 +32,8 @@ void generate_memory_table (Tables *table)
 
 int entry_aux(Tables* table, uint32_t *IP)
 {
-    if(table->table_24[(*IP>>8)]>>15 == 0) //Here we focus on the bit 15 because if it is 0 that means it doesnt have an entry on the aux table.
-    {
+    if(table->table_24[(*IP>>8)]>>15 == 0) //Here we focus on the bit 15 because if it is 0 that means it doesnt have an entry on the aux table (UNIQUE USE IS AS A FLAG). 
+    { //Nº15 is an extra bit of the interface which correspond to the Maximum Interface 2^(15)=32xxx.
         return 1; //Void
     }else
     {
@@ -63,14 +63,14 @@ void new_route(Tables* table, uint32_t *IP, int *prefix, int *oIf)
             modified_ip=pow(2,32-*prefix);
             if (entry_aux(table, IP))//If aux does not exist
             {
-                table->aux_table=realloc(table->aux_table, 256*(table->ip_extensions+1)*sizeof(short));//This will be the variable size of our aux_table. 256 * Nº of extensions.
+                table->aux_table=realloc(table->aux_table, 256*(table->ip_extensions+1)*sizeof(short));//This will be the variable size of our aux_table. 256 * Nº of extensions. 256 bc is the maximum 2⁸
 
                 for (table->ip_index=0; table->ip_index < 256; table->ip_index++)
                 {
                     table->aux_table[table->ip_extensions*256+table->ip_index]=table->table_24[(*IP>>8)];
                 }
 
-                for(table->ip_index=255;table->ip_index<modified_ip; table->ip_index++)
+                for(table->ip_index=(*IP&0x000000FF);table->ip_index<modified_ip+(*IP&0x000000FF); table->ip_index++)
                 {
                    table->aux_table[table->ip_extensions*256+table->ip_index]=*oIf; 
                 }
@@ -81,10 +81,10 @@ void new_route(Tables* table, uint32_t *IP, int *prefix, int *oIf)
 
             }else
             {//If exist
-                for(table->ip_index=255;table->ip_index<modified_ip; table->ip_index++)
+                int aux=table->table_24[*IP>>8 & 0x00007FFF]; //Base value of the aux_table with respect of Table_24
+                for(table->ip_index=(*IP&0x000000FF);table->ip_index<modified_ip+(*IP&0x000000FF); table->ip_index++)
                 {
-
-                   table->aux_table[(table->table_24[*IP])*256+table->ip_index]=*oIf;
+                    table->aux_table[aux*256+table->ip_index]=*oIf;//We take the position from the table_24 + the initial position
                 }
             }
     }
