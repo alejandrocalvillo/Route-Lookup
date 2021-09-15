@@ -2,7 +2,7 @@
 Route Lookup with Binary Search.
 
     First of all, the program generates the memory of the tables and initialize
-    the output variables (). If there is no erros, the tables are filled with the 
+    the output variables (). If there is no errors, the tables are filled with the 
     input arguments. Then the program will use a binary search to find the output
     interface for the incommings arguments IPs. Finally, it writes the desired 
     parameters of each test in it's output file. It will also print on screen this
